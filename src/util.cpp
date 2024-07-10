@@ -14,6 +14,7 @@ char fetchNextStep() {
 
         std::transform(response.begin(), response.end(), response.begin(), ::tolower);
 
+        // Check if the user entered the full word instead of just the first letter
         if (response == "generate") {
             c = 'g';
             validInput = true;
@@ -26,7 +27,6 @@ char fetchNextStep() {
         } else if (response.length() == 1) {
             c = response.front();
             c = tolower(c);
-
             switch (c) {
                 case 'g':
                 case 'l':
@@ -38,12 +38,10 @@ char fetchNextStep() {
             }
         }
     }
-
     return c;
 }
 
 int handleNextStep(char nextStep) {
-    
     switch (nextStep) {
         case 'g':
             std::cout << "User chose generate" << std::endl;
@@ -58,6 +56,5 @@ int handleNextStep(char nextStep) {
             std::cerr << "Invalid option" << std::endl;
             return 1;
     }
-
     return 0;
 }
