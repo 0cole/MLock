@@ -3,6 +3,4 @@
 
 int welcomeMessage();
 
-char fetchNextStep();
-
 #endif // WELCOME_H

@@ -6,9 +6,15 @@ int main() {
 
     welcomeMessage();
 
-    char c = fetchNextStep();
+    while (true) {
 
-    handleNextStep(c);
+        char c = fetchNextStep();
+
+        // If the user wants to exit
+        if (handleNextStep(c) == 2) {
+            break;
+        }
+    }
 
     return 0;
 }
