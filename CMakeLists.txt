@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Executables
 add_executable(MLock
     src/main.cpp
+    src/util.cpp
     src/welcome.cpp
 )
 
