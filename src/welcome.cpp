@@ -5,7 +5,7 @@
 #include <string>
 
 int welcomeMessage() {
-    std::cout << "Welcome to MLock!\n\nWhat would you like to do? ([G]enerate, [L]ibrary)" << std::endl;
+    std::cout << "Welcome to MLock!\n\nWhat would you like to do? ([G]enerate, [L]ibrary, [E]xit)" << std::endl;
 
     return 0;
 }
@@ -26,6 +26,9 @@ char fetchNextStep() {
         } else if (response == "library") {
             c = 'l';
             validInput = true;
+        } else if (response == "exit") {
+            c = 'e';
+            validInput = true;
         } else if (response.length() == 1) {
             c = response.front();
             c = tolower(c);
@@ -37,8 +40,12 @@ char fetchNextStep() {
                 case 'l':
                     validInput = true;
                     break;
+                case 'e':
+                    validInput = true;
+                    std::cout << "Exiting." << std::endl;
+                    return 0;
                 default:
-                    std::cout << "Please try again. What would you like to do? ([G]enerate, [L]ibrary)" << std::endl;
+                    std::cout << "Please try again. What would you like to do? ([G]enerate, [L]ibrary, [E]xit)" << std::endl;
             }
         }
     }
