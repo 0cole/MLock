@@ -3,30 +3,36 @@
 #include <iostream>
 #include <cctype>
 #include <string>
+    
+std::string parseUserInput() {
+    // Parses the user input, formats it into a string, and applies a transform to lowercase it
+    std::string response;
+    std::cin >> response;
+    std::transform(response.begin(), response.end(), response.begin(), ::tolower);
+    return response;
+}
 
 char fetchNextStep() {
     char c;
     bool validInput = false;
-    
-    while (!validInput) {
-        std::string response;
-        std::cin >> response;
+    std::cout << "What would you like to do?\n - [G]enerate\n - [L]ibrary\n - [E]xit" << std::endl;
 
-        std::transform(response.begin(), response.end(), response.begin(), ::tolower);
+    while (!validInput) {
+        std::string input = parseUserInput();
 
         // Check if the user entered the full word instead of just the first letter
-        if (response == "generate") {
+        if (input == "generate") {
             c = 'g';
             validInput = true;
-        } else if (response == "library") {
+        } else if (input == "library") {
             c = 'l';
             validInput = true;
-        } else if (response == "exit") {
+        } else if (input == "exit") {
             c = 'e';
             validInput = true;
-        } else if (response.length() == 1) {
-            c = response.front();
-            c = tolower(c);
+        } else if (input.length() == 1) {
+            c = input.front();
+            c = tolower(c); // just to be sure, lowercase it again
             switch (c) {
                 case 'g':
                 case 'l':
@@ -34,7 +40,7 @@ char fetchNextStep() {
                     validInput = true;
                     break;
                 default:
-                    std::cout << "Please try again. What would you like to do? ([G]enerate, [L]ibrary, [E]xit)" << std::endl;
+                    std::cout << "Please try again. What would you like to do?\n - [G]enerate\n - [L]ibrary\n - [E]xit" << std::endl;
             }
         }
     }
@@ -45,6 +51,7 @@ int handleNextStep(char nextStep) {
     switch (nextStep) {
         case 'g':
             std::cout << "User chose generate" << std::endl;
+
             break;
         case 'l':
             std::cout << "User chose library" << std::endl;
