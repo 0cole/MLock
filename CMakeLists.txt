@@ -13,6 +13,7 @@ add_executable(MLock
     src/util.cpp
     src/welcome.cpp
     src/generate.cpp
+    src/generationConfig.cpp
 )
 
 # Include directories

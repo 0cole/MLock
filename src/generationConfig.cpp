@@ -1,18 +1,26 @@
-#include "../include/GenerationConfig.h"
+#include "../include/generationConfig.h"
 
-GenerationConfig::GenerationConfig(int len, bool includeSpecialChars, bool IncludeCapitalLetters): len(len), includeSpecialChars(includeSpecialChars), includeCapitalLetters(includeCapitalLetters) {}
+GenerationConfig::GenerationConfig(int len, bool includeDigits, bool includeCapitalLetters, bool includeSpecialChars): 
+    len(len),
+    includeDigits(includeDigits), 
+    includeCapitalLetters(includeCapitalLetters), 
+    includeSpecialChars(includeSpecialChars) {}
 
 // Getters
 int GenerationConfig::getLen() const {
     return len;
 }
 
-bool PasswordConfig::isIncludeSpecialChars() const {
-    return includeSpecialChars;
+bool GenerationConfig::isIncludeDigits() const {
+    return includeDigits;
 }
 
-bool PasswordConfig::isIncludeCapitalLetters() const {
+bool GenerationConfig::isIncludeCapitalLetters() const {
     return includeCapitalLetters;
+}
+
+bool GenerationConfig::isIncludeSpecialChars() const {
+    return includeSpecialChars;
 }
 
 // Setters
@@ -21,10 +29,16 @@ void GenerationConfig::setLen(int len) {
     this->len = len;
 }
 
-void GenerationConfig::setIncludeSpecialChars(bool includeSpecialChars) {
-    this->includeSpecialChars = includeSpecialChars;
+void GenerationConfig::setIncludeDigits(bool includeDigits) {
+    this->includeDigits = includeDigits;
 }
 
 void GenerationConfig::setIncludeCapitalLetters(bool includeCapitalLetters) {
     this->includeCapitalLetters = includeCapitalLetters;
 }
+
+void GenerationConfig::setIncludeSpecialChars(bool includeSpecialChars) {
+    this->includeSpecialChars = includeSpecialChars;
+}
+
+

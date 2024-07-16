@@ -5,20 +5,23 @@
 
 class GenerationConfig {
 public:
-    GenerationConfig(int len, bool includeSpecialChars, bool includeCapitalLetters);
+    GenerationConfig(int len, bool includeDigits, bool includeCapitalLetters, bool includeSpecialChars);
 
     int getLen() const;
-    bool isIncludeSpecialChars() const;
+    bool isIncludeDigits() const;
     bool isIncludeCapitalLetters() const;
+    bool isIncludeSpecialChars() const;
 
     void setLen(int length);
-    void setIncludeSpecialChars(bool includeSpecialChars);
+    void setIncludeDigits(bool includeDigits); 
     void setIncludeCapitalLetters(bool includeCapitalLetters);
+    void setIncludeSpecialChars(bool includeSpecialChars);
 
 private:
     int len;
-    bool includeSpecialChars;
+    bool includeDigits;
     bool includeCapitalLetters;
+    bool includeSpecialChars;
 };
 
 #endif // GENERATION_CONFIG_H
