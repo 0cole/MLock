@@ -1,4 +1,5 @@
 #include "../include/util.h"
+#include "../include/generate.h"
 #include <algorithm>
 #include <iostream>
 #include <cctype>
@@ -51,7 +52,7 @@ int handleNextStep(char nextStep) {
     switch (nextStep) {
         case 'g':
             std::cout << "User chose generate" << std::endl;
-
+            generationInterface();
             break;
         case 'l':
             std::cout << "User chose library" << std::endl;
