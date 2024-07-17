@@ -25,10 +25,10 @@ std::string generate(GenerationConfig& config) {
     if (includeCapital) charSet += capital;
     if (includeSpecial) charSet += special;
 
-    std::cout << "Generating a password with a length of " << len 
-        << " chars, special chars = " << std::boolalpha << includeSpecial 
-        << ", digits = " << std::boolalpha << includeDigits
-        << ", and capital letters = " << std::boolalpha << includeCapital << std::endl;
+    std::cout << "Generating a password with a length of " << len << 
+        " chars, digits = " << std::boolalpha << includeDigits << 
+        ", capital letters = " << std::boolalpha << includeCapital << 
+        ", and special chars = " << std::boolalpha << includeSpecial << std::endl;
 
     // Generate the password
     std::string password;
@@ -42,16 +42,81 @@ std::string generate(GenerationConfig& config) {
     return password;
 }
 
-int generationInterface() {
-    std::cout << "What would you like to do?\n - [G]enerate\n - [C]onfigure\n - [E]xit" << std::endl;
-    std::string input = parseUserInput();
+bool getBooleanInput(const std::string& prompt) {
+    std::cout << prompt;
+    std::string result = parseUserInput();
+    if (result == "true" || result == "t") {
+        return true;
+    } else if (result == "false" || result == "f") {
+        return false;
+    } else {
+        std::cout << "Error: Invalid input; please enter true/false." << std::endl;
+        return getBooleanInput(prompt); // Recursive call to prompt again
+    }
+}
 
+GenerationConfig& editConfig(GenerationConfig& config) {
+    bool noexit = true;
+
+    while (noexit) {
+        std::string newline = "\n";
+        std::cout << "Which criteria would you like to change?" << newline << 
+            " - [L]en: " << config.getLen() << newline << 
+            " - [D]igits: " << std::boolalpha << config.isIncludeDigits() << newline <<
+            " - [C]apitals: " << std::boolalpha << config.isIncludeCapitalLetters() << newline <<
+            " - [S]pecial chars: " << std::boolalpha << config.isIncludeSpecialChars() << newline <<
+            " - [E]xit" << std::endl;
+        std::string input = parseUserInput();
+
+        // Changing length
+        if (input == "len" || input == "l") {
+            std::cout << "Enter a new length (current length = " << config.getLen() << "): ";
+            try {
+                int newLen;
+                std::cin >> newLen;
+
+                // Make sure the user enters a valid integer > 0
+                if (std::cin.fail() || newLen < 1) {
+                    throw std::runtime_error("Invalid input; please enter a positive integer.");
+                } else {
+                    config.setLen(newLen);
+                }
+            } catch (const std::runtime_error& e ) {
+                std::cout << "Error: " << e.what() << std::endl;
+            }
+        } else if (input == "digits" || input == "d") {
+            config.setIncludeDigits(getBooleanInput("Would you like to allow digits? ([T]rue/[F]alse) "));
+        } else if (input == "capitals" || input == "c") {
+            config.setIncludeCapitalLetters(getBooleanInput("Would you like to allow capital letters? ([T]rue/[F]alse) "));
+        } else if (input == "special" || input == "s") {
+            config.setIncludeSpecialChars(getBooleanInput("Would you like to allow special characters? ([T]rue/[F]alse) "));
+        } else if (input == "exit" || input == "e") {
+            std::cout << "Returning to the generation interface..." << std::endl;
+            noexit = false;
+        }
+    }
+    return config;
+}
+
+int generationInterface() {
+    bool noexit = true;
+
+    // Default config initializaiton
     GenerationConfig config(16, true, true, true);
 
-    if (input == "generate" || input == "g") {
-        std::string password = generate(config);
-        std::cout << "Generated Password: " << password << std::endl;
-    }
+    while (noexit) {
+        std::cout << "What would you like to do?\n - [G]enerate\n - [C]onfigure\n - [E]xit" << std::endl;
+        std::string input = parseUserInput();
 
+        if (input == "generate" || input == "g") {
+            std::string password = generate(config);
+            std::cout << "Generated Password: " << password << std::endl;
+        } else if (input == "config" || input == "c") {
+            config = editConfig(config); 
+        } else if (input == "exit" || input == "e") {
+            std::cout << "Returning to the main interface..." << std::endl;
+            noexit = false;
+        }
+    }
     return 0;
 }
