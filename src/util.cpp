@@ -1,7 +1,10 @@
 #include "../include/util.h"
 #include "../include/generate.h"
+#include "../include/library.h"
+#include <filesystem>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include <cctype>
 #include <string>
     
@@ -56,6 +59,7 @@ int handleNextStep(char nextStep) {
             break;
         case 'l':
             std::cout << "User chose library" << std::endl;
+            libraryInterface();
             break;
         case 'e':
             std::cout << "Exiting." << std::endl;
@@ -65,4 +69,14 @@ int handleNextStep(char nextStep) {
             return 1;
     }
     return 0;
+}
+
+void handleFile(std::string fileName) {
+    std::filesystem::path filePath = fileName;
+    if (!std::filesystem::exists(filePath)) {  // If file does not exist, create it
+        std::ofstream file(filePath);
+        if(!file) {
+            std::cerr << "Failed to create file" << std::endl;;
+        }
+    }
 }

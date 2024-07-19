@@ -9,6 +9,8 @@ int handleNextStep(char nextStep);
 
 std::string parseUserInput();
 
+void handleFile(std::string fileName);
+
 #endif // UTIL_H
 
 
