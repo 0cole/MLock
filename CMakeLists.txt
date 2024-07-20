@@ -7,6 +7,16 @@ project(MLock VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+
+# OpenSSL installation
+find_package(OpenSSL REQUIRED)
+if (NOT OpenSSL_FOUND)
+    message(FATAL_ERROR "OpenSSL not found!")
+endif()
+
+#Include Directories
+include_directories(${OPENSSL_INCLUDE_DIR})
+
 # Executables
 add_executable(MLock
     src/main.cpp
@@ -19,5 +29,4 @@ add_executable(MLock
 
 # Include directories
 target_include_directories(MLock PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-# Potentially find and link openSSL in the future if i choose to
+target_link_libraries(MLock OpenSSL::SSL OpenSSL::Crypto)

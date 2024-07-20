@@ -73,10 +73,13 @@ int handleNextStep(char nextStep) {
 
 void handleFile(std::string fileName) {
     std::filesystem::path filePath = fileName;
-    if (!std::filesystem::exists(filePath)) {  // If file does not exist, create it
-        std::ofstream file(filePath);
-        if(!file) {
-            std::cerr << "Failed to create file" << std::endl;;
-        }
+
+    // Create the file if it doesn't exist
+    std::ofstream file(filePath, std::ios::out);
+
+    if (file) {
+        std::cout << "Created " << filePath << std::endl;
+    } else {
+        std::cerr << "Failed to create file: " << filePath << std::endl;
     }
 }
