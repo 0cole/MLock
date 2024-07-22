@@ -9,7 +9,7 @@ int handleNextStep(char nextStep);
 
 std::string parseUserInput();
 
-void handleFile(std::string fileName);
+void handleFile(std::string fileName, std::string key);
 
 #endif // UTIL_H
 

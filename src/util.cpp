@@ -1,6 +1,7 @@
 #include "../include/util.h"
 #include "../include/generate.h"
 #include "../include/library/library.h"
+#include "../include/json.h"
 #include <filesystem>
 #include <algorithm>
 #include <iostream>
@@ -70,14 +71,29 @@ int handleNextStep(char nextStep) {
     return 0;
 }
 
-void handleFile(std::string fileName) {
+void handleFile(std::string fileName, std::string key) {
     std::filesystem::path filePath = fileName;
 
     // If file does not exist, create it
     if (!std::filesystem::exists(filePath)) { 
-        std::ofstream file(filePath);
+        std::ofstream file(filePath, std::ios::binary);
+
         if(!file) {
             std::cerr << "Failed to create file" << std::endl;;
         }
+
+        // For now, create a json object with the key and passwords, not ideal at all though
+        nlohmann::json jsonObj;
+
+        jsonObj["key"] = key;
+        jsonObj["passwords"] = {};
+
+        if (file.is_open()) {
+            file << jsonObj.dump(4);
+            file.close();
+            std::cout << "Successfully created and wrote key to " << fileName << std::endl;
+        }
+    } else {
+        std::cout << fileName << " already exists." << std::endl;
     }
 }

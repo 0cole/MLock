@@ -1,4 +1,5 @@
 #include "../include/library/add.h"
+#include "../include/json.h"
 #include <openssl/rand.h>
 #include <openssl/aes.h>
 #include <iostream>
@@ -22,23 +23,36 @@ std::vector<unsigned char> encryptPassword(std::string password, std::vector<uns
 }
 
 void savePassword(std::string website, std::string password, std::string fileName) {
-    std::ofstream file(fileName, std::ios::binary);
-    std::string entry = website + password;
+    nlohmann::json jsonData;
 
-    if (file.is_open()) {
-        file.write(entry.c_str(), entry.size());
-        file.close();
+    // Read existing data in json object
+    std::ifstream inputFile(fileName);
+    if (inputFile.is_open()) {
+        inputFile >> jsonData;
+        inputFile.close();
     } else {
-        throw std::runtime_error("Unable to open file to write to");
+        if (inputFile.fail() && !inputFile.eof()) {
+            throw std::runtime_error("Unable to open file for reading existing data.");
+        }
+    }
+    
+    jsonData["passwords"][website] = password;
+
+    std::ofstream outputFile(fileName, std::ios::trunc);
+    if (outputFile.is_open()) {
+        outputFile << jsonData.dump(4);
+        outputFile.close();
+    } else {
+        throw std::runtime_error("Unable to open the file to write new data to.");
     }
 }
 
 void addPassword(std::string website, std::string password, std::string fileName) {
     try {
         std::vector<unsigned char> key = generateKey();
-        std::vector<unsigned char> encryptedPassword = encryptPassword(password, key);
-        std::string encryptedPassword_str = reinterpret_cast <const char*>(encryptedPassword.data());
-        savePassword(website, encryptedPassword_str, fileName);
+        // std::vector<unsigned char> encryptedPassword = encryptPassword(password, key);
+        // std::string encryptedPassword_str = reinterpret_cast <const char*>(encryptedPassword.data());
+        savePassword(website, password, fileName);
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
