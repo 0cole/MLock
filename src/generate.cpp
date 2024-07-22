@@ -26,10 +26,10 @@ std::string generate(GenerationConfig& config) {
     if (includeCapital) charSet += capital;
     if (includeSpecial) charSet += special;
 
-    std::cout << "Generating a password with a length of " << len << 
-        " chars, digits = " << std::boolalpha << includeDigits << 
-        ", capital letters = " << std::boolalpha << includeCapital << 
-        ", and special chars = " << std::boolalpha << includeSpecial << std::endl;
+    std::cout << "Generating a password with a length of " << len << " chars" 
+        "\ndigits = " << std::boolalpha << includeDigits << 
+        "\ncapital letters = " << std::boolalpha << includeCapital << 
+        "\nspecial chars = " << std::boolalpha << includeSpecial << std::endl << std::endl;
 
     // Generate the password
     std::string password;

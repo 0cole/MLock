@@ -19,7 +19,10 @@ std::string parseUserInput() {
 char fetchNextStep() {
     char c;
     bool validInput = false;
-    std::cout << "What would you like to do?\n - [G]enerate\n - [L]ibrary\n - [E]xit" << std::endl;
+    std::cout << "What would you like to do?"
+        "\n - [G]enerate"
+        "\n - [L]ibrary"
+        "\n - [E]xit" << std::endl;
 
     while (!validInput) {
         std::string input = parseUserInput();
@@ -44,7 +47,10 @@ char fetchNextStep() {
                     validInput = true;
                     break;
                 default:
-                    std::cout << "Please try again. What would you like to do?\n - [G]enerate\n - [L]ibrary\n - [E]xit" << std::endl;
+                    std::cout << "Please try again. What would you like to do?"
+                        "\n - [G]enerate"
+                        "\n - [L]ibrary"
+                        "\n - [E]xit" << std::endl;
             }
         }
     }
@@ -54,18 +60,18 @@ char fetchNextStep() {
 int handleNextStep(char nextStep) {
     switch (nextStep) {
         case 'g':
-            std::cout << "User chose generate" << std::endl;
+            std::cout << "User chose generate\n" << std::endl;
             generationInterface();
             break;
         case 'l':
-            std::cout << "User chose library" << std::endl;
+            std::cout << "User chose library\n" << std::endl;
             libraryInterface();
             break;
         case 'e':
             std::cout << "Exiting." << std::endl;
             return 2; // Not an error code, but a separate return value to quit the program
         default:
-            std::cerr << "Invalid option" << std::endl;
+            std::cerr << "Invalid option. Please try again.\n" << std::endl;
             return 1;
     }
     return 0;
