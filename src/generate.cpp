@@ -109,7 +109,7 @@ int generationInterface() {
     GenerationConfig config(16, true, true, true);
 
     while (noexit) {
-        std::cout << "What would you like to do?
+        std::cout << "What would you like to do?"
             "\n - [G]enerate a password"
             "\n - [C]onfigure the generation settings"
             "\n - [E]xit" << std::endl;
