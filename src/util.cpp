@@ -1,13 +1,12 @@
 #include "../include/util.h"
 #include "../include/generate.h"
-#include "../include/library.h"
+#include "../include/library/library.h"
 #include <filesystem>
 #include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <cctype>
-#include <string>
-    
+
 std::string parseUserInput() {
     // Parses the user input, formats it into a string, and applies a transform to lowercase it
     std::string response;
@@ -74,12 +73,11 @@ int handleNextStep(char nextStep) {
 void handleFile(std::string fileName) {
     std::filesystem::path filePath = fileName;
 
-    // Create the file if it doesn't exist
-    std::ofstream file(filePath, std::ios::out);
-
-    if (file) {
-        std::cout << "Created " << filePath << std::endl;
-    } else {
-        std::cerr << "Failed to create file: " << filePath << std::endl;
+    // If file does not exist, create it
+    if (!std::filesystem::exists(filePath)) { 
+        std::ofstream file(filePath);
+        if(!file) {
+            std::cerr << "Failed to create file" << std::endl;;
+        }
     }
 }

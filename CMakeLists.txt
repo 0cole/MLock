@@ -7,7 +7,6 @@ project(MLock VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-
 # OpenSSL installation
 find_package(OpenSSL REQUIRED)
 if (NOT OpenSSL_FOUND)
@@ -24,7 +23,8 @@ add_executable(MLock
     src/welcome.cpp
     src/generate.cpp
     src/generationConfig.cpp
-    src/library.cpp
+    src/library/library.cpp
+    src/library/add.cpp
 )
 
 # Include directories
