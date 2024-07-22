@@ -1,5 +1,6 @@
 #include "../include/generate.h"
 #include "../include/generationConfig.h"
+#include "../include/library/add.h"
 #include "../include/util.h"
 #include <iostream>
 #include <string>
@@ -85,13 +86,16 @@ GenerationConfig& editConfig(GenerationConfig& config) {
                 std::cout << "Error: " << e.what() << std::endl;
             }
         } else if (input == "digits" || input == "d") {
-            config.setIncludeDigits(getBooleanInput("Would you like to allow digits? ([T]rue/[F]alse) "));
+            config.setIncludeDigits(getBooleanInput("Would you like to allow"
+                        " digits? [T]rue/[F]alse) "));
         } else if (input == "capitals" || input == "c") {
-            config.setIncludeCapitalLetters(getBooleanInput("Would you like to allow capital letters? ([T]rue/[F]alse) "));
+            config.setIncludeCapitalLetters(getBooleanInput("Would you like to allow"
+                        " capital letters? ([T]rue/[F]alse) "));
         } else if (input == "special" || input == "s") {
-            config.setIncludeSpecialChars(getBooleanInput("Would you like to allow special characters? ([T]rue/[F]alse) "));
+            config.setIncludeSpecialChars(getBooleanInput("Would you like to allow"
+                        " special characters? ([T]rue/[F]alse) "));
         } else if (input == "exit" || input == "e") {
-            std::cout << "Returning to the generation interface..." << std::endl;
+            std::cout << "Returning to the generation interface...\n" << std::endl;
             noexit = false;
         }
     }
@@ -105,16 +109,29 @@ int generationInterface() {
     GenerationConfig config(16, true, true, true);
 
     while (noexit) {
-        std::cout << "What would you like to do?\n - [G]enerate\n - [C]onfigure\n - [E]xit" << std::endl;
+        std::cout << "What would you like to do?
+            "\n - [G]enerate a password"
+            "\n - [C]onfigure the generation settings"
+            "\n - [E]xit" << std::endl;
         std::string input = parseUserInput();
 
         if (input == "generate" || input == "g") {
             std::string password = generate(config);
-            std::cout << "Generated Password: " << password << std::endl;
+            std::cout << "Generated Password: " << password
+                << ". Would you like to save it? (yes/no) ";
+
+            input = parseUserInput();
+
+            if (input == "yes" || input == "y") {
+                std::cout << "Please enter the website you will use this password for: ";
+                std::string website = parseUserInput();
+                addPassword(website, password, "passwords.json"); // fix the hardcoded filename
+            }
+
         } else if (input == "config" || input == "c") {
             config = editConfig(config); 
         } else if (input == "exit" || input == "e") {
-            std::cout << "Returning to the main interface..." << std::endl;
+            std::cout << "Returning to the main interface...\n" << std::endl;
             noexit = false;
         }
     }
