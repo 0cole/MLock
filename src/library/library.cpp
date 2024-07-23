@@ -6,9 +6,7 @@
 
 int libraryInterface() {
     bool noexit = true;
-    std::string key = "SuperSecretPassword";
     std::string fileName = "passwords.json";
-    handleFile(fileName, key);
 
     while (noexit) {
         std::cout << "What would you like to do?\n - [A]dd\n - [R]emove\n - [E]xit" << std::endl;
