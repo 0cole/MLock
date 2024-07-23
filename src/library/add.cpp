@@ -67,6 +67,8 @@ void savePassword(std::string website, std::string password, std::string fileNam
 }
 
 void addPassword(std::string website, std::string password, std::string fileName) {
+    std::transform(website.begin(), website.end(), website.begin(), ::tolower);
+
     try {
         std::vector<unsigned char> key = fetchKey(fileName);
         std::vector<unsigned char> encryptedPassword = encryptPassword(password, key);
