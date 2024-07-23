@@ -80,6 +80,8 @@ int handleNextStep(char nextStep) {
 void handleFile(std::string fileName, std::string key) {
     std::filesystem::path filePath = fileName;
 
+    std::cout << "Checking if " << fileName << " exists..." << std::endl;
+
     // If file does not exist, create it
     if (!std::filesystem::exists(filePath)) { 
         std::ofstream file(filePath, std::ios::binary);
@@ -102,4 +104,23 @@ void handleFile(std::string fileName, std::string key) {
     } else {
         std::cout << fileName << " already exists." << std::endl;
     }
+}
+
+std::vector<unsigned char> fetchKey(std::string fileName) {
+    std::filesystem::path filePath = fileName;
+    nlohmann::json jsonObj;
+
+    std::ifstream inputFile(filePath);
+    if (inputFile.is_open()) {
+        inputFile >> jsonObj;
+        inputFile.close();
+    }
+    std::string key_str = jsonObj["key"];
+
+    std::vector<unsigned char> key = stringToVector(key_str);
+    return key;
+}
+
+std::vector<unsigned char> stringToVector(const std::string& str) {
+    return std::vector<unsigned char>(str.begin(), str.end());
 }
