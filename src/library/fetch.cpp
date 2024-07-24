@@ -5,7 +5,6 @@
 #include <openssl/rand.h>
 #include <fstream>
 #include <iostream>
-#include <vector>
 
 std::string fromHex(const std::string& hexStr) {
     // initialize as null ptrs
@@ -24,16 +23,25 @@ std::string decrypt(const std::string& data, std::vector<unsigned char> key) {
     return std::string(decrypted.begin(), decrypted.end());
 }
 
-std::string fetchPassword(std::string fileName) {
+std::string fetchPassword(const std::string fileName) {
     std::cout << "Please enter the website you would like to retrieve the password for: ";
     std::string website = parseUserInput();
 
-    nlohmann::json jsonData;
+    if (website.empty()) {
+        throw std::runtime_error("Website input is empty.");
+    }
+
     std::vector<unsigned char> encryptionKey = fetchKey(fileName);
+    std::string decryptedPassword;
+    nlohmann::json jsonData;
     std::ifstream inputFile(fileName);
 
     if (inputFile.is_open()) {
-        inputFile >> jsonData;
+        try {
+            inputFile >> jsonData;
+        } catch (const nlohmann::json::parse_error& e) {
+            throw std::runtime_error("Error parsing JSON data: " + std::string(e.what()));
+        }
         inputFile.close();
     } else {
         if (inputFile.fail() && !inputFile.eof()) {
@@ -42,14 +50,23 @@ std::string fetchPassword(std::string fileName) {
     }
 
     if (jsonData.contains("passwords") && jsonData["passwords"].is_object()) {
-        for (auto& [key, value] : jsonData["passwords"].items()) {
+        for (const auto& [key, value] : jsonData["passwords"].items()) {
             if (key == website ) {
                 std::string encryptedPassword = fromHex(value);
-                std::string decryptedPassword = decrypt(encryptedPassword, encryptionKey);
-                std::cout << "Found password for " << website << ": " << decryptedPassword << std::endl;
+                decryptedPassword = decrypt(encryptedPassword, encryptionKey);
+                std::cout << "Found password for " << website << ": " 
+                    << decryptedPassword << std::endl;
+                break; // Found the password, skip the rest
             }
         }
     } else {
-        std::cerr << "There are no passwords saved or the object is missing" << std::endl; 
+        throw std::runtime_error("The passwords object is missing."); 
     }
+
+    // If no website in passwords.json matches user input
+    if (decryptedPassword.empty()) {
+        throw std::runtime_error("No passwords were found for " + website + ". Please try again.");
+    }
+
+    return decryptedPassword;
 }

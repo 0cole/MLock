@@ -18,17 +18,21 @@ int libraryInterface() {
 
         std::string input = parseUserInput();
 
-        if (input == "add" || input == "a") {
-            std::cout << "User chose add" << std::endl;
-            addPassword("hello.com", "password123", fileName);
-        } else if (input == "fetch" || input == "f") {
-            std::cout << "User chose fetch" << std::endl;
-            fetchPassword(fileName);
-        } else if (input == "remove" || input == "r") {
-            std::cout << "User chose remove" << std::endl;
-        } else if (input == "exit" || input == "e") {
-            std::cout << "Returning to the main interface..." << std::endl;
-            noexit = false;
+        try {
+            if (input == "add" || input == "a") {
+                std::cout << "User chose add" << std::endl;
+                addPassword("hello.com", "password123", fileName);
+            } else if (input == "fetch" || input == "f") {
+                std::cout << "User chose fetch" << std::endl;
+                fetchPassword(fileName);
+            } else if (input == "remove" || input == "r") {
+                std::cout << "User chose remove" << std::endl;
+            } else if (input == "exit" || input == "e") {
+                std::cout << "Returning to the main interface..." << std::endl;
+                noexit = false;
+            }
+        } catch (const std::runtime_error& e ) {
+            std::cout << "Error: " << e.what() << std::endl;
         }
     }
     return 0;

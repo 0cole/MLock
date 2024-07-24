@@ -8,6 +8,6 @@ std::string fromHex(const std::string& hexStr);
 
 std::string decrypt(const std::string& data, std::vector<unsigned char> key);
 
-std::string fetchPassword(std::string fileName);
+std::string fetchPassword(const std::string fileName);
 
 #endif // FETCH_H
