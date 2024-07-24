@@ -25,6 +25,7 @@ add_executable(MLock
     src/generationConfig.cpp
     src/library/library.cpp
     src/library/add.cpp
+    src/library/fetch.cpp
 )
 
 # Include directories

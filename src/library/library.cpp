@@ -23,7 +23,7 @@ int libraryInterface() {
             addPassword("hello.com", "password123", fileName);
         } else if (input == "fetch" || input == "f") {
             std::cout << "User chose fetch" << std::endl;
-            //fetchPassword(fileName)
+            fetchPassword(fileName);
         } else if (input == "remove" || input == "r") {
             std::cout << "User chose remove" << std::endl;
         } else if (input == "exit" || input == "e") {
