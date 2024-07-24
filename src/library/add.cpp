@@ -16,15 +16,6 @@ std::string toHex(const std::vector<unsigned char>& data) {
     return oss.str();
 }
 
-std::vector<unsigned char> fromHex(const std::string& hexStr) {
-    // REverses toHex back to regular bytes
-    std::vector<unsigned char> result(hexStr.length() / 2);
-    for (size_t i = 0; i < result.size(); ++i) {
-        result[i] = static_cast<unsigned char>(std::stoi(hexStr.substr(i * 2, 2), nullptr, 16));
-    }
-    return result;
-}
-
 // std::vector<unsigned char> generateKey() {
 //     std::vector<unsigned char> key(AES_BLOCK_SIZE);
 //     if (!RAND_bytes(key.data(), AES_BLOCK_SIZE)) {
