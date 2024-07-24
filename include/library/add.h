@@ -4,12 +4,12 @@
 #include <vector>
 #include <string>
 
-std::vector<unsigned char> generateKey();
+std::string toHex(const std::vector<unsigned char>& data);
 
-std::vector<unsigned char> encryptPassword(std::string password, std::vector<unsigned char> key);
+std::vector<unsigned char> encryptPassword(const std::string& password, const std::vector<unsigned char>& key);
 
-void savePassword(std::string website, std::string password, std::string fileName);
+void savePassword(const std::string& website, const std::string& password, const std::string& fileName);
 
-void addPassword(std::string website, std::string password, std::string fileName);
+void addPassword(std::string website, const std::string& password, const std::string& fileName);
 
 #endif // ADD_H

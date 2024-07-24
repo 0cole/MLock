@@ -5,9 +5,21 @@
 #include <iostream>
 #include <fstream>
 
-int libraryInterface() {
+void handleAddPassword(const std::string& fileName) {
+    std::cout << "Please enter the website you would like to save the password for: ";
+    std::string website = parseUserInput();
+    std::cout << "Please enter the password you would like to save for " << website << ": ";
+    std::string password = parseUserInput();
+
+    if (website.empty() || password.empty()) {
+        throw std::runtime_error("Website or password is empty. Please try again.");
+    }
+
+    addPassword(website, password, fileName);
+}
+
+int libraryInterface(const std::string& fileName) {
     bool noexit = true;
-    std::string fileName = "passwords.json";
 
     while (noexit) {
         std::cout << "What would you like to do?"
@@ -21,7 +33,7 @@ int libraryInterface() {
         try {
             if (input == "add" || input == "a") {
                 std::cout << "User chose add" << std::endl;
-                addPassword("hello.com", "password123", fileName);
+                handleAddPassword(fileName);
             } else if (input == "fetch" || input == "f") {
                 std::cout << "User chose fetch" << std::endl;
                 fetchPassword(fileName);

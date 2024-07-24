@@ -6,7 +6,7 @@
 
 char fetchNextStep();
 
-int handleNextStep(char nextStep);
+int handleNextStep(char nextStep, const std::string& fileName);
 
 std::string parseUserInput();
 

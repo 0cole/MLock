@@ -16,7 +16,7 @@ int main() {
         char c = fetchNextStep();
 
         // If the user wants to exit
-        if (handleNextStep(c) == 2) {
+        if (handleNextStep(c, fileName) == 2) {
             break;
         }
     }

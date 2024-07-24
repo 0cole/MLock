@@ -5,7 +5,6 @@
 #include <openssl/aes.h>
 #include <iostream>
 #include <fstream>
-#include <string>
 
 std::string toHex(const std::vector<unsigned char>& data) {
     // Converts to a readable hex so it can be saved in the .json
@@ -16,15 +15,7 @@ std::string toHex(const std::vector<unsigned char>& data) {
     return oss.str();
 }
 
-// std::vector<unsigned char> generateKey() {
-//     std::vector<unsigned char> key(AES_BLOCK_SIZE);
-//     if (!RAND_bytes(key.data(), AES_BLOCK_SIZE)) {
-//         throw std::runtime_error("Error generating random bytes for key");
-//     }
-//     return key;
-// }
-
-std::vector<unsigned char> encryptPassword(std::string password, std::vector<unsigned char> key) {
+std::vector<unsigned char> encryptPassword(const std::string& password, const std::vector<unsigned char>& key) {
     std::vector<unsigned char> encryptedPassword(AES_BLOCK_SIZE);
     AES_KEY aesKey;
     AES_set_encrypt_key(key.data(), 128, &aesKey);
@@ -32,7 +23,7 @@ std::vector<unsigned char> encryptPassword(std::string password, std::vector<uns
     return encryptedPassword;
 }
 
-void savePassword(std::string website, std::string password, std::string fileName) {
+void savePassword(const std::string& website, const std::string& password, const std::string& fileName) {
     nlohmann::json jsonData;
 
     // Read existing data in json object
@@ -57,15 +48,12 @@ void savePassword(std::string website, std::string password, std::string fileNam
     }
 }
 
-void addPassword(std::string website, std::string password, std::string fileName) {
+void addPassword(std::string website, const std::string& password, const std::string& fileName) {
+    // Apply a transform to lowercase the website
     std::transform(website.begin(), website.end(), website.begin(), ::tolower);
 
-    try {
-        std::vector<unsigned char> key = fetchKey(fileName);
-        std::vector<unsigned char> encryptedPassword = encryptPassword(password, key);
-        std::string encryptedPassword_str = toHex(encryptedPassword);
-        savePassword(website, encryptedPassword_str, fileName);
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
+    std::vector<unsigned char> key = fetchKey(fileName);
+    std::vector<unsigned char> encryptedPassword = encryptPassword(password, key);
+    std::string encryptedPassword_str = toHex(encryptedPassword);
+    savePassword(website, encryptedPassword_str, fileName);
 }

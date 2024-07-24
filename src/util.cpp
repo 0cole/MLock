@@ -57,7 +57,7 @@ char fetchNextStep() {
     return c;
 }
 
-int handleNextStep(char nextStep) {
+int handleNextStep(char nextStep, const std::string& fileName) {
     switch (nextStep) {
         case 'g':
             std::cout << "User chose generate\n" << std::endl;
@@ -65,7 +65,7 @@ int handleNextStep(char nextStep) {
             break;
         case 'l':
             std::cout << "User chose library\n" << std::endl;
-            libraryInterface();
+            libraryInterface(fileName);
             break;
         case 'e':
             std::cout << "Exiting." << std::endl;
