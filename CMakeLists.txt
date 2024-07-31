@@ -7,6 +7,9 @@ project(MLock VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Add vcpkg (if someone else cloned this repo, make sure you change the vcpkg path)
+set(CMAKE_TOOLCHAIN_FILE "~/frameworks/vcpkg/scripts/buildsystems/vcpkg.cmake")
+
 # OpenSSL installation
 find_package(OpenSSL REQUIRED)
 if (NOT OpenSSL_FOUND)
