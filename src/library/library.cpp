@@ -1,4 +1,5 @@
 #include "../include/library/library.h"
+#include "../include/library/remove.h"
 #include "../include/library/fetch.h"
 #include "../include/library/add.h"
 #include "../include/util.h"
@@ -16,6 +17,16 @@ void handleAddPassword(const std::string& fileName) {
     }
 
     addPassword(website, password, fileName);
+}
+
+void handleRemovePassword(const std::string& fileName) {
+    std::cout << "Please enter the website of the password you wish to delete: ";
+    std::string website = parseUserInput();
+
+    if (website.empty()) {
+        throw std::runtime_error("Website is empty. Please try again.");
+    }
+    removePassword(website, fileName);
 }
 
 int libraryInterface(const std::string& fileName) {
@@ -39,6 +50,7 @@ int libraryInterface(const std::string& fileName) {
                 fetchPassword(fileName);
             } else if (input == "remove" || input == "r") {
                 std::cout << "User chose remove" << std::endl;
+                handleRemovePassword(fileName);
             } else if (input == "exit" || input == "e") {
                 std::cout << "Returning to the main interface..." << std::endl;
                 noexit = false;
