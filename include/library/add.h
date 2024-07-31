@@ -6,6 +6,8 @@
 
 std::string toHex(const std::vector<unsigned char>& data);
 
+std::vector<unsigned char> applyPadding(const std::vector<unsigned char>& data);
+
 std::vector<unsigned char> encryptPassword(const std::string& password, const std::vector<unsigned char>& key);
 
 void savePassword(const std::string& website, const std::string& password, const std::string& fileName);

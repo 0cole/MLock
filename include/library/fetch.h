@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 
-std::string fromHex(const std::string& hexStr);
+std::vector<unsigned char> fromHex(const std::string& hexStr);
+
+std::vector<unsigned char> removePadding(const std::vector<unsigned char>& data);
 
 std::string decrypt(const std::string& data, std::vector<unsigned char> key);
 
