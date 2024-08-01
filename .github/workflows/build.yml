@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up vcpkg
+      uses: microsoft/vcpkg-action@v1
+      with:
+        vcpkg-triplet: x64-linux
+
+    - name: Install dependencies
+      run: |
+        ./vcpkg install nlohmann-json
+
+    - name: Build
+      run: |
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=Release ..
+        cmake --build .
