@@ -1,6 +1,7 @@
 #include "../include/library/add.h"
 #include "../include/util.h"
 #include "../include/json.h"
+#include <nlohmann/json.hpp>
 #include <openssl/rand.h>
 #include <openssl/aes.h>
 #include <iostream>

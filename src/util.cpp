@@ -1,7 +1,7 @@
-#include "../include/util.h"
 #include "../include/generate.h"
 #include "../include/library/library.h"
 #include "../include/json.h"
+#include <nlohmann/json.hpp>
 #include <filesystem>
 #include <algorithm>
 #include <iostream>

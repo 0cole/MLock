@@ -1,8 +1,8 @@
 #include "../include/library/fetch.h"
-#include "../include/json.h"
 #include "../include/util.h"
-#include <openssl/aes.h>
+#include <nlohmann/json.hpp>
 #include <openssl/rand.h>
+#include <openssl/aes.h>
 #include <fstream>
 #include <iostream>
 
