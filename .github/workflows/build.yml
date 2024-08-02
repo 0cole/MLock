@@ -4,29 +4,10 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up vcpkg
-      uses: microsoft/vcpkg-action@v1
-      with:
-        vcpkg-triplet: x64-linux
-      env:
-        VCPKG_TOOLCHAIN_FILE: /path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
-
-    - name: Install dependencies
-      run: |
-        ./vcpkg install nlohmann-json
-
-    - name: Build
-      run: |
-        mkdir -p build
-        cd build
-        cmake -DCMAKE_BUILD_TYPE=Release ..
-        cmake --build .
+    uses: ./.github/workflows/cmake-single-platform.yml
