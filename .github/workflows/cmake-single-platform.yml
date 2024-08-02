@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: vcpkg install
 
+      - name: Debug vcpkg root
+        run: echo ${{ steps.vcpkg.outputs.vcpkgRoot }}
+
       - name: Configure CMake
         run: cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=${{ steps.vcpkg.outputs.vcpkgRoot }}/scripts/buildsystems/vcpkg.cmake
 
