@@ -11,3 +11,5 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/cmake-single-platform.yml
+    with:
+      build-type: Release

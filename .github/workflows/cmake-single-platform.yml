@@ -1,6 +1,12 @@
 name: CMake Single Platform
 
-on: [push, pull_request]
+on:
+  workflow_call:
+    inputs:
+      build-type:
+        required: true
+        type: string
+        default: Release
 
 jobs:
   build:
