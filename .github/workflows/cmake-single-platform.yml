@@ -12,6 +12,10 @@ jobs:
 
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v11.5
+        with:
+          vcpkgGitCommitId: '5b1214315250939257ef5d62ecdcbca18cf4fb1c'
+          runVcpkgInstall: true
+          vcpkgJson: true
 
       - name: Install dependencies
         run: vcpkg install openssl nlohmann-json
