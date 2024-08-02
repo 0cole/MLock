@@ -106,6 +106,10 @@ void handleFile(std::string fileName, std::string key) {
     }
 }
 
+std::vector<unsigned char> stringToVector(const std::string& str) {
+    return std::vector<unsigned char>(str.begin(), str.end());
+}
+
 std::vector<unsigned char> fetchKey(std::string fileName) {
     std::filesystem::path filePath = fileName;
     nlohmann::json jsonObj;
@@ -119,8 +123,4 @@ std::vector<unsigned char> fetchKey(std::string fileName) {
 
     std::vector<unsigned char> key = stringToVector(key_str);
     return key;
-}
-
-std::vector<unsigned char> stringToVector(const std::string& str) {
-    return std::vector<unsigned char>(str.begin(), str.end());
 }

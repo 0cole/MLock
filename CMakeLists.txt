@@ -7,17 +7,14 @@ project(MLock VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Add vcpkg (if someone else cloned this repo, make sure you change the vcpkg path)
-set(CMAKE_TOOLCHAIN_FILE "/home/cole/frameworks/vcpkg/scripts/buildsystems/vcpkg.cmake"
-    CACHE STRING "Vcpkg toolchain file")
+# Temporary fix
+# export CMAKE_PREFIX_PATH="/home/cole/frameworks/vcpkg/installed/x64-linux"
 
-set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/share" ${CMAKE_PREFIX_PATH})
+# Add vcpkg (if someone else cloned this repo, make sure you change the vcpkg path)
+set(CMAKE_TOOLCHAIN_FILE "/home/cole/frameworks/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
 # OpenSSL installation
 find_package(OpenSSL REQUIRED)
-if (NOT OpenSSL_FOUND)
-    message(FATAL_ERROR "OpenSSL not found!")
-endif()
 
 # Nlohmann-json installation
 find_package(nlohmann_json CONFIG REQUIRED)
@@ -45,4 +42,4 @@ target_link_libraries(MLock
         OpenSSL::SSL
         OpenSSL::Crypto
         nlohmann_json::nlohmann_json
-    )
+)

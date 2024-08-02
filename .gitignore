@@ -1,2 +1,3 @@
 build/*
 passwords.*
+vcpkg_installed/
