@@ -18,7 +18,7 @@ jobs:
           vcpkgJson: true
 
       - name: Install dependencies
-        run: vcpkg install openssl nlohmann-json
+        run: vcpkg install
 
       - name: Configure CMake
         run: cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=${{ steps.vcpkg.outputs.vcpkgRoot }}/scripts/buildsystems/vcpkg.cmake
