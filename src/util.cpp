@@ -127,6 +127,22 @@ nlohmann::json readFromJson(const std::string& fileName) {
     return jsonData;
 }
 
+void writeToJson(const std::string& fileName, const nlohmann::json& jsonData) {
+    std::filesystem::path filePath = fileName;
+    std::ofstream file(filePath, std::ios::trunc);
+
+    if (file.is_open()) {
+        try {
+            file << jsonData.dump(4);
+        } catch (const nlohmann::json::parse_error& e) {
+            throw std::runtime_error("Error parsing JSON data: " + std::string(e.what()));
+        }
+        file.close();
+    } else {
+        throw std::runtime_error("Unable to open file for reading existing data.");
+    }
+}
+
 std::vector<unsigned char> fetchKey(std::string fileName) {
     nlohmann::json jsonObj = readFromJson(fileName);
     std::string key_str = jsonObj["key"];

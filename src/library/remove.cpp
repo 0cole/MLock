@@ -13,13 +13,7 @@ void removePassword(const std::string& website, const std::string& fileName) {
         throw std::runtime_error(website + " does not exist in password library");
     }
 
-    std::ofstream outputFile(fileName, std::ios::trunc);
-    if (outputFile.is_open()) {
-        outputFile << jsonData.dump(4);
-        outputFile.close();
-    } else {
-        throw std::runtime_error("Unable to open the file to write new data to.");
-    }
+    writeToJson(fileName, jsonData); 
 
     std::cout << "Successfully deleted " << website << " from the password library\n" << std::endl;
 }

@@ -44,13 +44,7 @@ void savePassword(const std::string& website, const std::string& password, const
     
     jsonData["passwords"][website] = password;
 
-    std::ofstream outputFile(fileName, std::ios::trunc);
-    if (outputFile.is_open()) {
-        outputFile << jsonData.dump(4);
-        outputFile.close();
-    } else {
-        throw std::runtime_error("Unable to open the file to write new data to.");
-    }
+    writeToJson(fileName, jsonData); 
 }
 
 void addPassword(std::string website, const std::string& password, const std::string& fileName) {

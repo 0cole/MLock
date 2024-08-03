@@ -13,11 +13,13 @@ std::string parseUserInput();
 
 void handleFile(std::string fileName, std::string key);
 
-std::vector<unsigned char> fetchKey(std::string fileName);
-
 std::vector<unsigned char> stringToVector(const std::string& str);
 
 nlohmann::json readFromJson(const std::string& fileName);
+
+void writeToJson(const std::string& fileName, const nlohmann::json& jsonData);
+
+std::vector<unsigned char> fetchKey(std::string fileName);
 
 #endif // UTIL_H
 
