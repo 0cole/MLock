@@ -1,6 +1,5 @@
 #include "../include/library/add.h"
 #include "../include/util.h"
-#include "../include/json.h"
 #include <nlohmann/json.hpp>
 #include <openssl/rand.h>
 #include <openssl/aes.h>
@@ -41,18 +40,7 @@ std::vector<unsigned char> encryptPassword(const std::string& password, const st
 }
 
 void savePassword(const std::string& website, const std::string& password, const std::string& fileName) {
-    nlohmann::json jsonData;
-
-    // Read existing data in json object
-    std::ifstream inputFile(fileName);
-    if (inputFile.is_open()) {
-        inputFile >> jsonData;
-        inputFile.close();
-    } else {
-        if (inputFile.fail() && !inputFile.eof()) {
-            throw std::runtime_error("Unable to open file for reading existing data.");
-        }
-    }
+    nlohmann::json jsonData = readFromJson(fileName);
     
     jsonData["passwords"][website] = password;
 

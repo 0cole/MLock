@@ -1,6 +1,5 @@
 #include "../include/generate.h"
 #include "../include/library/library.h"
-#include "../include/json.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <algorithm>
@@ -110,17 +109,27 @@ std::vector<unsigned char> stringToVector(const std::string& str) {
     return std::vector<unsigned char>(str.begin(), str.end());
 }
 
-std::vector<unsigned char> fetchKey(std::string fileName) {
+nlohmann::json readFromJson(const std::string& fileName) {
+    nlohmann::json jsonData;
     std::filesystem::path filePath = fileName;
-    nlohmann::json jsonObj;
+    std::ifstream file(filePath);
 
-    std::ifstream inputFile(filePath);
-    if (inputFile.is_open()) {
-        inputFile >> jsonObj;
-        inputFile.close();
+    if (file.is_open()) {
+        try {
+            file >> jsonData;
+        } catch (const nlohmann::json::parse_error& e) {
+            throw std::runtime_error("Error parsing JSON data: " + std::string(e.what()));
+        }
+        file.close();
+    } else {
+        throw std::runtime_error("Unable to open file for reading existing data.");
     }
-    std::string key_str = jsonObj["key"];
+    return jsonData;
+}
 
+std::vector<unsigned char> fetchKey(std::string fileName) {
+    nlohmann::json jsonObj = readFromJson(fileName);
+    std::string key_str = jsonObj["key"];
     std::vector<unsigned char> key = stringToVector(key_str);
     return key;
 }

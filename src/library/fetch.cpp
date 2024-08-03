@@ -57,21 +57,7 @@ std::string fetchPassword(const std::string fileName) {
 
     std::vector<unsigned char> encryptionKey = fetchKey(fileName);
     std::string decryptedPassword;
-    nlohmann::json jsonData;
-    std::ifstream inputFile(fileName);
-
-    if (inputFile.is_open()) {
-        try {
-            inputFile >> jsonData;
-        } catch (const nlohmann::json::parse_error& e) {
-            throw std::runtime_error("Error parsing JSON data: " + std::string(e.what()));
-        }
-        inputFile.close();
-    } else {
-        if (inputFile.fail() && !inputFile.eof()) {
-            throw std::runtime_error("Unable to open file for reading existing data.");
-        }
-    }
+    nlohmann::json jsonData = readFromJson(fileName);
 
     if (jsonData.contains("passwords") && jsonData["passwords"].is_object()) {
         for (const auto& [key, value] : jsonData["passwords"].items()) {
