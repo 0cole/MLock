@@ -7,6 +7,11 @@
 #include <fstream>
 
 void handleAddPassword(const std::string& fileName) {
+    // Require pin before continuing
+    if ( ! pinConfirmation(fileName)) {
+        throw std::runtime_error("Incorrect pin.");
+    }
+
     std::cout << "Please enter the website you would like to save the password for: ";
     std::string website = parseUserInput();
     std::cout << "Please enter the password you would like to save for " << website << ": ";
@@ -20,6 +25,11 @@ void handleAddPassword(const std::string& fileName) {
 }
 
 void handleRemovePassword(const std::string& fileName) {
+    // Require pin before continuing
+    if ( ! pinConfirmation(fileName)) {
+        throw std::runtime_error("Incorrect pin.");
+    }
+
     std::cout << "Please enter the website of the password you wish to delete: ";
     std::string website = parseUserInput();
 

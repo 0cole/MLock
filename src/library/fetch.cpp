@@ -48,6 +48,11 @@ std::string decrypt(const std::string& data, std::vector<unsigned char> key) {
 }
 
 std::string fetchPassword(const std::string fileName) {
+    // Require pin before continuing
+    if ( ! pinConfirmation(fileName)) {
+        throw std::runtime_error("Incorrect pin.");
+    }
+
     std::cout << "Please enter the website you would like to retrieve the password for: ";
     std::string website = parseUserInput();
 

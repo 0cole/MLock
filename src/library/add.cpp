@@ -48,6 +48,7 @@ void savePassword(const std::string& website, const std::string& password, const
 }
 
 void addPassword(std::string website, const std::string& password, const std::string& fileName) {
+
     // Apply a transform to lowercase the website
     std::transform(website.begin(), website.end(), website.begin(), ::tolower);
 

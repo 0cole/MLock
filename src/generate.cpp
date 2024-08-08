@@ -102,7 +102,7 @@ GenerationConfig& editConfig(GenerationConfig& config) {
     return config;
 }
 
-int generationInterface() {
+int generationInterface(const std::string& fileName) {
     bool noexit = true;
 
     // Default config initializaiton
@@ -115,24 +115,33 @@ int generationInterface() {
             "\n - [E]xit" << std::endl;
         std::string input = parseUserInput();
 
-        if (input == "generate" || input == "g") {
-            std::string password = generate(config);
-            std::cout << "Generated Password: " << password
-                << ". Would you like to save it? (yes/no) ";
+        try {
 
-            input = parseUserInput();
+            if (input == "generate" || input == "g") {
+                std::string password = generate(config);
+                std::cout << "Generated Password: " << password
+                    << ". Would you like to save it? (yes/no) ";
 
-            if (input == "yes" || input == "y") {
-                std::cout << "Please enter the website you will use this password for: ";
-                std::string website = parseUserInput();
-                addPassword(website, password, "passwords.json"); // fix the hardcoded filename
+                input = parseUserInput();
+
+                if (input == "yes" || input == "y") {
+                    // Require pin before continuing
+                    if ( ! pinConfirmation(fileName)) {
+                        throw std::runtime_error("Incorrect pin.");
+                    }
+                    std::cout << "Please enter the website you will use this password for: ";
+                    std::string website = parseUserInput();
+                    addPassword(website, password, fileName); // fix the hardcoded filename
+                }
+
+            } else if (input == "config" || input == "c") {
+                config = editConfig(config); 
+            } else if (input == "exit" || input == "e") {
+                std::cout << "Returning to the main interface...\n" << std::endl;
+                noexit = false;
             }
-
-        } else if (input == "config" || input == "c") {
-            config = editConfig(config); 
-        } else if (input == "exit" || input == "e") {
-            std::cout << "Returning to the main interface...\n" << std::endl;
-            noexit = false;
+        } catch (const std::runtime_error& e ) {
+                std::cout << "Error: " << e.what() << std::endl;
         }
     }
     return 0;

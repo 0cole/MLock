@@ -60,7 +60,7 @@ int handleNextStep(char nextStep, const std::string& fileName) {
     switch (nextStep) {
         case 'g':
             std::cout << "User chose generate\n" << std::endl;
-            generationInterface();
+            generationInterface(fileName);
             break;
         case 'l':
             std::cout << "User chose library\n" << std::endl;

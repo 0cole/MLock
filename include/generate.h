@@ -1,6 +1,8 @@
 #ifndef GENERATE_H
 #define GENERATE_H
 
-int generationInterface();
+#include <string>
+
+int generationInterface(const std::string& fileName);
 
 #endif // GENERATE_H
