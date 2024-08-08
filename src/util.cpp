@@ -76,6 +76,13 @@ int handleNextStep(char nextStep, const std::string& fileName) {
     return 0;
 }
 
+void addPin(nlohmann::json& jsonObj) {
+    // Add more checks here later
+    std::cout << "Please enter the master pin you would like to save: ";
+    const std::string pin = parseUserInput();
+    jsonObj["pin"] = pin;
+}
+
 void handleFile(std::string fileName, std::string key) {
     std::filesystem::path filePath = fileName;
 
@@ -92,6 +99,7 @@ void handleFile(std::string fileName, std::string key) {
         // For now, create a json object with the key and passwords, not ideal at all though
         nlohmann::json jsonObj;
 
+        addPin(jsonObj);
         jsonObj["key"] = key;
         jsonObj["passwords"] = {};
 
@@ -148,4 +156,16 @@ std::vector<unsigned char> fetchKey(std::string fileName) {
     std::string key_str = jsonObj["key"];
     std::vector<unsigned char> key = stringToVector(key_str);
     return key;
+}
+
+bool pinConfirmation(const std::string& fileName) {
+    std::cout << "Please enter the master pin:";
+    const std::string pin = parseUserInput();
+
+    nlohmann::json jsonObj = readFromJson(fileName);
+    if (jsonObj["pin"] == pin) {
+        std::cout << "Pin entered successfully" << std::endl;
+        return true;
+    }
+    return false;
 }
