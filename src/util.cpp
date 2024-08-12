@@ -1,5 +1,6 @@
-#include "../include/generate.h"
 #include "../include/library/library.h"
+#include "../include/generate.h"
+#include "../include/colors.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <algorithm>
@@ -46,7 +47,7 @@ char fetchNextStep() {
                     validInput = true;
                     break;
                 default:
-                    std::cout << "Please try again. What would you like to do?"
+                    std::cout << colors::YELLOW << "\nInvalid input. Please try again." << colors::RESET <<
                         "\n - [G]enerate"
                         "\n - [L]ibrary"
                         "\n - [E]xit" << std::endl;
@@ -70,7 +71,7 @@ int handleNextStep(char nextStep, const std::string& fileName) {
             std::cout << "Exiting." << std::endl;
             return 2; // Not an error code, but a separate return value to quit the program
         default:
-            std::cerr << "Invalid option. Please try again.\n" << std::endl;
+            std::cerr << colors::YELLOW << "Invalid option. Please try again.\n" << colors::RESET << std::endl;
             return 1;
     }
     return 0;
@@ -93,7 +94,7 @@ void handleFile(std::string fileName, std::string key) {
         std::ofstream file(filePath, std::ios::binary);
 
         if(!file) {
-            std::cerr << "Failed to create file" << std::endl;;
+            std::cerr << colors::RED << "Failed to create file" << colors::RESET << std::endl;;
         }
 
         // For now, create a json object with the key and passwords, not ideal at all though
@@ -106,11 +107,12 @@ void handleFile(std::string fileName, std::string key) {
         if (file.is_open()) {
             file << jsonObj.dump(4);
             file.close();
-            std::cout << "Successfully created and wrote key to " << fileName << std::endl;
+            std::cout << colors::GREEN << "Successfully created and wrote key to " << fileName << colors::RESET<< std::endl;
         }
     } else {
-        std::cout << fileName << " already exists." << std::endl;
+        std::cout << colors::GREEN << fileName << " already exists." << colors::RESET << std::endl;
     }
+    std::cout << std::endl; // Add extra line at end for asthetic 
 }
 
 std::vector<unsigned char> stringToVector(const std::string& str) {
@@ -164,7 +166,7 @@ bool pinConfirmation(const std::string& fileName) {
 
     nlohmann::json jsonObj = readFromJson(fileName);
     if (jsonObj["pin"] == pin) {
-        std::cout << "Pin entered successfully" << std::endl;
+        std::cout << colors::GREEN << "Pin entered successfully" << colors::RESET << std::endl;
         return true;
     }
     return false;
